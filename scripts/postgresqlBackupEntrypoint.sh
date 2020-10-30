@@ -11,7 +11,7 @@ case $1 in
     restore
     ;;
   listBackups)
-    listBackups
+    /scripts/resticEntrypoint.sh list
     ;;
   *)
     echo -n "Please give valid input"
