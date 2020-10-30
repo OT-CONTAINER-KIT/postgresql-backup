@@ -8,7 +8,7 @@ case $1 in
   restore)
     restore
     ;;
-  getBackupID)
+  listBackups)
     listBackups
     ;;
   *)

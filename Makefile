@@ -14,3 +14,12 @@ run-testdb:
 
 build:
 	docker build -t opstree/postgresqlbackup:$(IMAGE_VERSION) .
+
+listBackups:
+	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
+
+backup:
+	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
+
+restore:
+	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
