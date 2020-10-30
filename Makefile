@@ -27,10 +27,10 @@ listBackups:
 	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
 
 backup:
-	@docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/ --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/db.properties --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
 
 restore:
-	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/db.properties --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
 
 run-debug:
 	docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/db.properties --rm --entrypoint /bin/bash opstree/postgresqlbackup:$(IMAGE_VERSION)
