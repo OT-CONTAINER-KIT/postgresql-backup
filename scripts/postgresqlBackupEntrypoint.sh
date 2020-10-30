@@ -5,9 +5,10 @@ source /etc/backup/db.properties
 case $1 in
   backup)
     backup
-    /scripts/resticEntrypoint.sh backup / $BACKUP_FILE
+    /scripts/resticEntrypoint.sh backup ${BACKUP_BASE} ${BACKUP_FILE}
     ;;
   restore)
+    /scripts/resticEntrypoint.sh restore $2 ${BACKUP_BASE}
     restore
     ;;
   listBackups)
