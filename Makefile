@@ -24,13 +24,30 @@ build:
 	docker build -t opstree/postgresqlbackup:$(IMAGE_VERSION) .
 
 listBackups:
-	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
 
 backup:
-	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
 
 restore:
-	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore $(SNAPSHOT_ID)
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore $(SNAPSHOT_ID)
 
 run-debug:
-	docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm --entrypoint /bin/bash opstree/postgresqlbackup:$(IMAGE_VERSION)
+	docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm --entrypoint /bin/bash opstree/postgresqlbackup:$(IMAGE_VERSION)
+
+wait:
+	@read -p "Press enter to continue...."
+
+end-to-end-test:
+	make run-testdb
+	make wait
+	rm -rf sample/backup
+
+	make backup
+	make wait
+
+	make listBackups
+	make wait
+
+	make restore SNAPSHOT_ID=latest
+	make wait
