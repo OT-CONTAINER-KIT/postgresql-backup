@@ -24,7 +24,7 @@ build:
 	docker build -t opstree/postgresqlbackup:$(IMAGE_VERSION) .
 
 listBackups:
-	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
 
 backup:
 	@docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/db.properties --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
