@@ -10,16 +10,19 @@ create-network:
 	
 run-testdb:
 	@docker rm -f testdb || true > /dev/null
-	@docker run -itd --rm --net ${NETWORK} --name testdb -e POSTGRES_PASSWORD=password postgres
+	@docker run -itd --rm --net ${NETWORK} --name testdb -e POSTGRES_PASSWORD=password  postgres
 
 build:
 	docker build -t opstree/postgresqlbackup:$(IMAGE_VERSION) .
 
 listBackups:
-	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
+	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
 
 backup:
-	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
+	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
 
 restore:
-	docker run -it --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
+	@docker run -it --net ${NETWORK} --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
+
+run-debug:
+	docker run -it --net ${NETWORK} --rm --entrypoint /bin/bash opstree/postgresqlbackup:$(IMAGE_VERSION)
