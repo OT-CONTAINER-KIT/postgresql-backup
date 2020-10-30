@@ -9,14 +9,14 @@ create-network:
 	@docker network create ${NETWORK} || true > /dev/null
 	
 setup-testdb:
-	@docker exec testdb psql -h testdb -U postgres -c "CREATE TABLE products (product_no integer, name text, price numeric);"
-	@docker exec testdb psql -h testdb -U postgres -c "INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);"
-	@docker exec testdb psql -h testdb -U postgres -c "INSERT INTO products (product_no, name, price) VALUES (2, 'Cheese2', 2.99);"
-	@docker exec testdb psql -h testdb -U postgres -c "INSERT INTO products (product_no, name, price) VALUES (3, 'Cheese3', 3.99);"
+	@docker exec testdb psql -h testdb -U postgres opstree -c "CREATE TABLE products (product_no integer, name text, price numeric);"
+	@docker exec testdb psql -h testdb -U postgres opstree -c "INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);"
+	@docker exec testdb psql -h testdb -U postgres opstree -c "INSERT INTO products (product_no, name, price) VALUES (2, 'Cheese2', 2.99);"
+	@docker exec testdb psql -h testdb -U postgres opstree -c "INSERT INTO products (product_no, name, price) VALUES (3, 'Cheese3', 3.99);"
 	
 run-testdb:
 	@docker rm -f testdb || true > /dev/null
-	@docker run -itd --rm --net ${NETWORK} --name testdb -e PGPASSWORD=password -e POSTGRES_PASSWORD=password -e POSTGRES_DB=opstree postgres
+	@docker run -itd --rm --net ${NETWORK} --name testdb -e PGPASSWORD=password -e POSTGRES_PASSWORD=password -e POSTGRES_DB=opstree postgres:12.4
 	sleep 5s
 	make setup-testdb
 
