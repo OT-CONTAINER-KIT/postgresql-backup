@@ -30,7 +30,7 @@ backup:
 	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) backup
 
 restore:
-	@docker run -it --net ${NETWORK} -v ${PWD}/sample/db.properties:/etc/backup/db.properties --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) restore $(SNAPSHOT_ID)
 
 run-debug:
 	docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/bckup:/data/backup --rm --entrypoint /bin/bash opstree/postgresqlbackup:$(IMAGE_VERSION)
