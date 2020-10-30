@@ -1,5 +1,6 @@
 #!/bin/bash
 source /scripts/postgresqlBackup.sh
+source /etc/backup/db.properties
 
 case $1 in
   backup)
