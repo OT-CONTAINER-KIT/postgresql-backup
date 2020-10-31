@@ -23,6 +23,9 @@ run-testdb:
 build:
 	docker build -t opstree/postgresqlbackup:$(IMAGE_VERSION) .
 
+initStorage:
+	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) init
+
 listBackups:
 	@docker run -it --net ${NETWORK} -v ${PWD}/sample/properties:/etc/backup -v ${PWD}/sample/backup:/data/backup --rm opstree/postgresqlbackup:$(IMAGE_VERSION) listBackups
 
@@ -43,6 +46,9 @@ end-to-end-test:
 	make wait
 	rm -rf sample/backup
 
+	make initStorage
+	make wait
+	
 	make backup
 	make wait
 
