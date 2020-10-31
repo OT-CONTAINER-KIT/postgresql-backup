@@ -3,6 +3,9 @@ source /scripts/postgresqlBackup.sh
 source /etc/backup/db.properties
 
 case $1 in
+  init)
+    /scripts/resticEntrypoint.sh init
+    ;;
   backup)
     backup
     /scripts/resticEntrypoint.sh backup ${BACKUP_BASE} ${BACKUP_FILE}
