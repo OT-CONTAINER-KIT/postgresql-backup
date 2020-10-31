@@ -40,6 +40,7 @@ run-debug:
 
 wait:
 	@read -p "Press enter to continue...."
+	clear
 
 end-to-end-test:
 	make run-testdb
@@ -48,7 +49,7 @@ end-to-end-test:
 
 	make initStorage
 	make wait
-	
+
 	make backup
 	make wait
 
